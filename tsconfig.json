@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "noImplicitAny": false,
     "baseUrl": ".",
     "types": ["webpack-env", "jest", "iview"],
     "paths": {
@@ -23,7 +24,10 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "src/libs/util.ts",
+    "src/store/module/app.js",
+    "src/store/module/user.js"
   ],
   "exclude": ["node_modules"]
 }

@@ -31,11 +31,15 @@ import { Form } from "iview";
 @Component
 export default class LoginForm extends Vue {
   @Prop({
-    default: [{ required: true, message: "账号不能为空", trigger: "blur" }]
+    default: () => [
+      { required: true, message: "账号不能为空", trigger: "blur" }
+    ]
   })
   readonly passwordRules!: object | Array<any>;
   @Prop({
-    default: [{ required: true, message: "密码不能为空", trigger: "blur" }]
+    default: () => [
+      { required: true, message: "密码不能为空", trigger: "blur" }
+    ]
   })
   readonly userNameRules!: object | Array<any>;
 
