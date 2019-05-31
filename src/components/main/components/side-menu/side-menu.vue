@@ -22,10 +22,12 @@
             v-else
             :name="getNameOrHref(item, true)"
             :key="`menu-${item.children[0].name}`"
-            ><common-icon :type="item.children[0].icon || ''" /><span>{{
-              showTitle(item.children[0])
-            }}</span></menu-item
           >
+            <common-icon :type="item.children[0].icon || ''" />
+            <span>
+              {{ showTitle(item.children[0]) }}
+            </span>
+          </menu-item>
         </template>
         <template v-else>
           <side-menu-item
@@ -37,10 +39,12 @@
             v-else
             :name="getNameOrHref(item)"
             :key="`menu-${item.name}`"
-            ><common-icon :type="item.icon || ''" /><span>{{
-              showTitle(item)
-            }}</span></menu-item
           >
+            <common-icon :type="item.icon || ''" />
+            <span>
+              {{ showTitle(item) }}
+            </span>
+          </menu-item>
         </template>
       </template>
     </Menu>
@@ -71,112 +75,102 @@
             @click="handleSelect(getNameOrHref(item, true))"
             class="drop-menu-a"
             :style="{ textAlign: 'center' }"
-            ><common-icon
+          >
+            <common-icon
               :size="rootIconSize"
               :color="textColor"
               :type="item.icon || (item.children && item.children[0].icon)"
-          /></a>
+            />
+          </a>
         </Tooltip>
       </template>
     </div>
   </div>
 </template>
-<script>
+
+<script lang="ts">
+import { Component, Vue, Emit, Prop, Watch } from "vue-property-decorator";
+import { mixins } from "vue-class-component";
+import { Menu } from "iview";
+
 import SideMenuItem from "./side-menu-item.vue";
 import CollapsedMenu from "./collapsed-menu.vue";
 import { getUnion } from "@/libs/tools";
 import mixin from "./mixin";
 
-export default {
-  name: "SideMenu",
-  mixins: [mixin],
+@Component({
   components: {
     SideMenuItem,
     CollapsedMenu
-  },
-  props: {
-    menuList: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
-    collapsed: {
-      type: Boolean
-    },
-    theme: {
-      type: String,
-      default: "dark"
-    },
-    rootIconSize: {
-      type: Number,
-      default: 20
-    },
-    iconSize: {
-      type: Number,
-      default: 16
-    },
-    accordion: Boolean,
-    activeName: {
-      type: String,
-      default: ""
-    },
-    openNames: {
-      type: Array,
-      default: () => []
+  }
+})
+export default class SideMenu extends mixins(mixin) {
+  @Prop({ default: () => [] }) readonly menuList!: any[];
+  @Prop(Boolean) readonly collapsed!: boolean | undefined;
+  @Prop({ default: "dark" }) readonly theme!: string;
+  @Prop({ default: 20 }) readonly rootIconSize!: number;
+  @Prop({ default: 16 }) readonly iconSize!: number;
+  @Prop(Boolean) readonly accordion!: boolean | undefined;
+  @Prop({ default: "" }) readonly activeName!: string;
+  @Prop({ default: () => [] }) readonly openNames!: any[];
+
+  name = "SideMenu";
+
+  openedNames: Array<string | undefined> = [];
+
+  @Emit("on-select")
+  handleSelect(name) {
+    return name;
+  }
+  getOpenedNamesByActiveName(name: string): (string | undefined)[] {
+    return this.$route.matched
+      .map(item => item.name)
+      .filter(item => item !== name);
+  }
+  updateOpenName(name) {
+    if (name === this.$config.homeName) {
+      this.openedNames = [];
+    } else {
+      this.openedNames = this.getOpenedNamesByActiveName(name);
     }
-  },
-  data() {
-    return {
-      openedNames: []
-    };
-  },
-  methods: {
-    handleSelect(name) {
-      this.$emit("on-select", name);
-    },
-    getOpenedNamesByActiveName(name) {
-      return this.$route.matched
-        .map(item => item.name)
-        .filter(item => item !== name);
-    },
-    updateOpenName(name) {
-      if (name === this.$config.homeName) this.openedNames = [];
-      else this.openedNames = this.getOpenedNamesByActiveName(name);
+  }
+  get textColor() {
+    return this.theme === "dark" ? "#fff" : "#495060";
+  }
+
+  @Watch("activeName")
+  onActiveNameChanged(val: string, oldVal: string) {
+    if (this.accordion) {
+      this.openedNames = this.getOpenedNamesByActiveName(name);
+    } else {
+      this.openedNames = getUnion(
+        this.openedNames,
+        this.getOpenedNamesByActiveName(name)
+      );
     }
-  },
-  computed: {
-    textColor() {
-      return this.theme === "dark" ? "#fff" : "#495060";
-    }
-  },
-  watch: {
-    activeName(name) {
-      if (this.accordion)
-        this.openedNames = this.getOpenedNamesByActiveName(name);
-      else
-        this.openedNames = getUnion(
-          this.openedNames,
-          this.getOpenedNamesByActiveName(name)
-        );
-    },
-    openNames(newNames) {
-      this.openedNames = newNames;
-    },
-    openedNames() {
-      this.$nextTick(() => {
-        this.$refs.menu.updateOpened();
-      });
-    }
-  },
+  }
+
+  @Watch("openNames")
+  onOpenNamesChanged(newNames: string[]) {
+    this.openedNames = newNames;
+  }
+
+  @Watch("openedNames")
+  onOpenedNamesChanged() {
+    this.$nextTick(() => {
+      (this.$refs.menu as Menu).updateOpened();
+    });
+  }
+
   mounted() {
     this.openedNames = getUnion(
       this.openedNames,
       this.getOpenedNamesByActiveName(name)
     );
   }
-};
+}
 </script>
+
 <style lang="less">
 @import "./side-menu.less";
 </style>

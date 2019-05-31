@@ -11,18 +11,22 @@
       type="text"
       @mouseover="handleMousemove($event, children)"
       :style="{ textAlign: !hideTitle ? 'left' : '' }"
-      ><common-icon
+    >
+      <common-icon
         :size="rootIconSize"
         :color="textColor"
-        :type="parentItem.icon"/><span class="menu-title" v-if="!hideTitle">{{
-        showTitle(parentItem)
-      }}</span
-      ><Icon
+        :type="parentItem.icon"
+      />
+      <span class="menu-title" v-if="!hideTitle">
+        {{ showTitle(parentItem) }}
+      </span>
+      <Icon
         style="float: right;"
         v-if="!hideTitle"
         type="ios-arrow-forward"
         :size="16"
-    /></a>
+      />
+    </a>
     <DropdownMenu ref="dropdown" slot="list">
       <template v-for="child in children">
         <collapsed-menu
@@ -31,56 +35,49 @@
           :parent-item="child"
           :key="`drop-${child.name}`"
         ></collapsed-menu>
-        <DropdownItem v-else :key="`drop-${child.name}`" :name="child.name"
-          ><common-icon :size="iconSize" :type="child.icon" /><span
-            class="menu-title"
-            >{{ showTitle(child) }}</span
-          ></DropdownItem
-        >
+        <DropdownItem v-else :key="`drop-${child.name}`" :name="child.name">
+          <common-icon :size="iconSize" :type="child.icon" />
+          <span class="menu-title">{{ showTitle(child) }}</span>
+        </DropdownItem>
       </template>
     </DropdownMenu>
   </Dropdown>
 </template>
-<script>
+
+<script lang="ts">
+import { mixins } from "vue-class-component";
+import { Component, Vue, Prop, Emit } from "vue-property-decorator";
+
 import mixin from "./mixin";
 import itemMixin from "./item-mixin";
 import { findNodeUpperByClasses } from "@/libs/util";
 
-export default {
-  name: "CollapsedMenu",
-  mixins: [mixin, itemMixin],
-  props: {
-    hideTitle: {
-      type: Boolean,
-      default: false
-    },
-    rootIconSize: {
-      type: Number,
-      default: 16
-    }
-  },
-  data() {
-    return {
-      placement: "right-end"
-    };
-  },
-  methods: {
-    handleClick(name) {
-      this.$emit("on-click", name);
-    },
-    handleMousemove(event, children) {
-      const { pageY } = event;
-      const height = children.length * 38;
-      const isOverflow = pageY + height < window.innerHeight;
-      this.placement = isOverflow ? "right-start" : "right-end";
-    }
-  },
+@Component
+export default class CollapsedMenu extends mixins(mixin, itemMixin) {
+  @Prop({ default: false }) readonly hideTitle!: boolean;
+  @Prop({ default: 16 }) readonly rootIconSize!: number;
+
+  name = "CollapsedMenu";
+  placement = "right-end";
+
+  @Emit("on-click")
+  handleClick(name) {
+    return name;
+  }
+
+  handleMousemove(event, children) {
+    const { pageY } = event;
+    const height = children.length * 38;
+    const isOverflow = pageY + height < window.innerHeight;
+    this.placement = isOverflow ? "right-start" : "right-end";
+  }
+
   mounted() {
-    let dropdown = findNodeUpperByClasses(this.$refs.dropdown.$el, [
+    let dropdown = findNodeUpperByClasses((this.$refs.dropdown as Vue).$el, [
       "ivu-select-dropdown",
       "ivu-dropdown-transfer"
     ]);
     if (dropdown) dropdown.style.overflow = "visible";
   }
-};
+}
 </script>

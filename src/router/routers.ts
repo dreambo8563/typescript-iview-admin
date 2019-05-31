@@ -46,5 +46,14 @@ export default [
         component: () => import("@/views/single-page/home")
       }
     ]
+  },
+  {
+    path: "",
+    name: "doc",
+    meta: {
+      title: "文档",
+      href: "https://lison16.github.io/iview-admin-doc/#/",
+      icon: "ios-book"
+    }
   }
 ];
