@@ -24,6 +24,8 @@ export default class ABackTop extends Vue {
   @Prop({ default: 1000 }) readonly duration!: number;
   @Prop({ default: window }) readonly container!: Window | string;
 
+  @Emit("on-click")
+  onClickHandler() {}
   //是否显示
   backTop = false;
 
@@ -48,7 +50,7 @@ export default class ABackTop extends Vue {
     }
     const sTop = (target as HTMLElement).scrollTop;
     scrollTop(this.containerEle, sTop, 0, this.duration);
-    this.$emit("on-click");
+    this.onClickHandler();
   }
 
   get classes() {
