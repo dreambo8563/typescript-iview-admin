@@ -25,9 +25,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/libs/util.ts",
-    "src/store/module/app.js",
-    "src/store/module/user.js"
+    "src/components/login-form/index.ts"
   ],
   "exclude": ["node_modules"]
 }

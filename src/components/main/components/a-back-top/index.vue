@@ -7,89 +7,72 @@
     </slot>
   </div>
 </template>
-<script>
+
+<script lang="ts">
+import { Component, Vue, Prop, Emit } from "vue-property-decorator";
+import { State, Getter, Action, Mutation } from "vuex-class";
 import { scrollTop } from "@/libs/util";
 import { on, off } from "@/libs/tools";
+
 const prefixCls = "ivu-back-top";
 
-export default {
-  name: "ABackTop",
-  props: {
-    height: {
-      type: Number,
-      default: 400
-    },
-    bottom: {
-      type: Number,
-      default: 30
-    },
-    right: {
-      type: Number,
-      default: 30
-    },
-    duration: {
-      type: Number,
-      default: 1000
-    },
-    container: {
-      type: null,
-      default: window
-    }
-  },
-  data() {
-    return {
-      backTop: false
-    };
-  },
+@Component
+export default class ABackTop extends Vue {
+  @Prop({ default: 400 }) readonly height!: number;
+  @Prop({ default: 30 }) readonly bottom!: number;
+  @Prop({ default: 30 }) readonly right!: number;
+  @Prop({ default: 1000 }) readonly duration!: number;
+  @Prop({ default: window }) readonly container!: Window | string;
+
+  //是否显示
+  backTop = false;
+
   mounted() {
-    // window.addEventListener('scroll', this.handleScroll, false)
-    // window.addEventListener('resize', this.handleScroll, false)
     on(this.containerEle, "scroll", this.handleScroll);
     on(this.containerEle, "resize", this.handleScroll);
-  },
+  }
+
   beforeDestroy() {
-    // window.removeEventListener('scroll', this.handleScroll, false)
-    // window.removeEventListener('resize', this.handleScroll, false)
     off(this.containerEle, "scroll", this.handleScroll);
     off(this.containerEle, "resize", this.handleScroll);
-  },
-  computed: {
-    classes() {
-      return [
-        `${prefixCls}`,
-        {
-          [`${prefixCls}-show`]: this.backTop
-        }
-      ];
-    },
-    styles() {
-      return {
-        bottom: `${this.bottom}px`,
-        right: `${this.right}px`
-      };
-    },
-    innerClasses() {
-      return `${prefixCls}-inner`;
-    },
-    containerEle() {
-      return this.container === window
-        ? window
-        : document.querySelector(this.container);
-    }
-  },
-  methods: {
-    handleScroll() {
-      this.backTop = this.containerEle.scrollTop >= this.height;
-    },
-    back() {
-      let target =
-        typeof this.container === "string"
-          ? this.containerEle
-          : document.documentElement || document.body;
-      const sTop = target.scrollTop;
-      scrollTop(this.containerEle, sTop, 0, this.duration);
-      this.$emit("on-click");
-    }
   }
-};
+
+  handleScroll() {
+    this.backTop = (this.containerEle as HTMLElement)!.scrollTop >= this.height;
+  }
+
+  back() {
+    let target = document.documentElement || document.body;
+    if (this.containerEle && typeof this.container === "string") {
+      target = this.containerEle as HTMLElement;
+    }
+    const sTop = (target as HTMLElement).scrollTop;
+    scrollTop(this.containerEle, sTop, 0, this.duration);
+    this.$emit("on-click");
+  }
+
+  get classes() {
+    return [
+      `${prefixCls}`,
+      {
+        [`${prefixCls}-show`]: this.backTop
+      }
+    ];
+  }
+  get styles(): { bottom: string; right: string } {
+    return {
+      bottom: `${this.bottom}px`,
+      right: `${this.right}px`
+    };
+  }
+  get innerClasses(): string {
+    return `${prefixCls}-inner`;
+  }
+
+  get containerEle(): Element | null | Window {
+    return this.container === window
+      ? window
+      : document.querySelector(this.container as string);
+  }
+}
 </script>

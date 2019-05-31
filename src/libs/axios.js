@@ -57,7 +57,9 @@ class HttpRequest {
       res => {
         this.destroy(url);
         const { data, status } = res;
+        // console.log(data);
         return { data, status };
+        // return data;
       },
       error => {
         this.destroy(url);

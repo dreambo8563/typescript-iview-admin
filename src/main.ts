@@ -11,6 +11,10 @@ import "./registerServiceWorker";
 import "./index.less";
 import "@/assets/icons/iconfont.css";
 
+// 实际打包时应该不引入mock
+/* eslint-disable */
+if (process.env.NODE_ENV !== 'production') require('@/mock');
+
 Vue.use(iView, {
   i18n: (key: string, value: string) => i18n.t(key, value)
 });
@@ -22,4 +26,4 @@ new Vue({
   i18n,
   store,
   render: h => h(App)
-}).$mount("#app");
+}).$mount('#app');

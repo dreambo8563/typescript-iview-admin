@@ -203,19 +203,19 @@ export const getNewTagList = (list: any[], newRoute: RouteConfig) => {
 //   return routePermissionJudge(routes);
 // };
 
-// /**
-//  * @param {String} url
-//  * @description 从URL中解析参数
-//  */
-// export const getParams = url => {
-//   const keyValueArr = url.split("?")[1].split("&");
-//   let paramObj = {};
-//   keyValueArr.forEach(item => {
-//     const keyValue = item.split("=");
-//     paramObj[keyValue[0]] = keyValue[1];
-//   });
-//   return paramObj;
-// };
+/**
+ * @param {String} url
+ * @description 从URL中解析参数
+ */
+export const getParams = (url: string) => {
+  const keyValueArr = url.split("?")[1].split("&");
+  let paramObj = {};
+  keyValueArr.forEach(item => {
+    const keyValue = item.split("=");
+    paramObj[keyValue[0]] = keyValue[1];
+  });
+  return paramObj;
+};
 
 /**
  * @param {Array} list 标签列表
@@ -385,12 +385,15 @@ export const localRead = (key: string) => {
 
 // scrollTop animation
 export const scrollTop = (
-  el: Element,
+  el: Element | Window | null,
   from = 0,
   to: number,
   duration = 500,
-  endCallback: Function
+  endCallback?: Function
 ) => {
+  if (el === null) {
+    return;
+  }
   if (!window.requestAnimationFrame) {
     window.requestAnimationFrame =
       window.webkitRequestAnimationFrame ||
@@ -417,7 +420,7 @@ export const scrollTop = (
     if (el === <any>window) {
       window.scrollTo(d, d);
     } else {
-      el.scrollTop = d;
+      (<HTMLElement>el).scrollTop = d;
     }
     window.requestAnimationFrame(() => scroll(d, end, step));
   };
