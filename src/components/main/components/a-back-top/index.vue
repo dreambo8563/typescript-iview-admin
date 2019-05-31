@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
-import { State, Getter, Action, Mutation } from "vuex-class";
+import { Action } from "vuex-class";
 import { scrollTop } from "@/libs/util";
 import { on, off } from "@/libs/tools";
 
@@ -18,11 +18,11 @@ const prefixCls = "ivu-back-top";
 
 @Component
 export default class ABackTop extends Vue {
-  @Prop({ default: 400 }) readonly height!: number;
-  @Prop({ default: 30 }) readonly bottom!: number;
-  @Prop({ default: 30 }) readonly right!: number;
-  @Prop({ default: 1000 }) readonly duration!: number;
-  @Prop({ default: window }) readonly container!: Window | string;
+  @Prop({ default: 400 }) readonly height!: number; //距离container元素的距离, 用于触发显示条件
+  @Prop({ default: 30 }) readonly bottom!: number; // 距离container底部的距离, 定位
+  @Prop({ default: 30 }) readonly right!: number; // 距离container 右侧的距离, 定位
+  @Prop({ default: 1000 }) readonly duration!: number; // 动画时长
+  @Prop({ default: window }) readonly container!: Window | string; // 滚动元素
 
   @Emit("on-click")
   onClickHandler() {}
