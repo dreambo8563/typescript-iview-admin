@@ -15,28 +15,33 @@
     </div>
   </div>
 </template>
-<script>
+
+<script lang="ts">
+import { Component, Vue, Prop, Emit } from "vue-property-decorator";
+import { State, namespace } from "vuex-class";
+
 import siderTrigger from "./sider-trigger";
 import customBreadCrumb from "./custom-bread-crumb";
-import "./header-bar.less";
-export default {
-  name: "HeaderBar",
+// const someModule = namespace("app");
+@Component({
   components: {
     siderTrigger,
     customBreadCrumb
-  },
-  props: {
-    collapsed: Boolean
-  },
-  computed: {
-    breadCrumbList() {
-      return this.$store.state.app.breadCrumbList;
-    }
-  },
-  methods: {
-    handleCollpasedChange(state) {
-      this.$emit("on-coll-change", state);
-    }
   }
-};
+})
+export default class HeaderBar extends Vue {
+  @State(state => state.app.breadCrumbList) breadCrumbList;
+  @Prop(Boolean) readonly collapsed!: boolean | undefined;
+
+  name = "HeaderBar";
+
+  @Emit("on-coll-change")
+  handleCollpasedChange(state) {
+    return state;
+  }
+}
 </script>
+
+<style lang="less">
+@import "./header-bar.less";
+</style>

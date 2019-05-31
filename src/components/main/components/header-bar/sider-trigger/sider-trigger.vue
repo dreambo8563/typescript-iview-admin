@@ -3,30 +3,28 @@
     @click="handleChange"
     type="text"
     :class="['sider-trigger-a', collapsed ? 'collapsed' : '']"
-    ><Icon :type="icon" :size="size"
-  /></a>
+  >
+    <Icon :type="icon" :size="size" />
+  </a>
 </template>
-<script>
-export default {
-  name: "siderTrigger",
-  props: {
-    collapsed: Boolean,
-    icon: {
-      type: String,
-      default: "navicon-round"
-    },
-    size: {
-      type: Number,
-      default: 26
-    }
-  },
-  methods: {
-    handleChange() {
-      this.$emit("on-change", !this.collapsed);
-    }
+<script lang="ts">
+import { Component, Vue, Prop, Emit } from "vue-property-decorator";
+
+@Component
+export default class SiderTrigger extends Vue {
+  @Prop({ default: "navicon-round" }) readonly icon!: string;
+  @Prop(Boolean) readonly collapsed!: boolean | undefined;
+  @Prop({ default: 26 }) readonly size!: number;
+
+  name = "siderTrigger";
+
+  @Emit("on-change")
+  handleChange() {
+    return !this.collapsed;
   }
-};
+}
 </script>
+
 <style lang="less">
 @import "./sider-trigger.less";
 </style>

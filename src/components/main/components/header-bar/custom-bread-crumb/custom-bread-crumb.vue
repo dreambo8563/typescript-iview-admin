@@ -12,39 +12,36 @@
     </Breadcrumb>
   </div>
 </template>
-<script>
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
+
 import { showTitle } from "@/libs/util";
 import CommonIcon from "_c/common-icon";
-import "./custom-bread-crumb.less";
-export default {
-  name: "customBreadCrumb",
+
+@Component({
   components: {
     CommonIcon
-  },
-  props: {
-    list: {
-      type: Array,
-      default: () => []
-    },
-    fontSize: {
-      type: Number,
-      default: 14
-    },
-    showIcon: {
-      type: Boolean,
-      default: false
-    }
-  },
-  methods: {
-    showTitle(item) {
-      return showTitle(item, this);
-    },
-    isCustomIcon(iconName) {
-      return iconName.indexOf("_") === 0;
-    },
-    getCustomIconName(iconName) {
-      return iconName.slice(1);
-    }
   }
-};
+})
+export default class CustomBreadCrumb extends Vue {
+  @Prop({ default: () => [] }) readonly list!: any[];
+  @Prop({ default: 14 }) readonly fontSize!: number;
+  @Prop({ default: false }) readonly showIcon!: boolean;
+
+  name = "customBreadCrumb";
+
+  showTitle(item) {
+    return showTitle(item, this);
+  }
+  isCustomIcon(iconName) {
+    return iconName.indexOf("_") === 0;
+  }
+  getCustomIconName(iconName) {
+    return iconName.slice(1);
+  }
+}
 </script>
+
+<style lang="less">
+@import "./custom-bread-crumb.less";
+</style>

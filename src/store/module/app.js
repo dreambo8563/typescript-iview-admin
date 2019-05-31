@@ -26,7 +26,6 @@ const closePage = (state, route) => {
 };
 
 export default {
-  namespace: true,
   state: {
     breadCrumbList: [],
     tagNavList: [],
