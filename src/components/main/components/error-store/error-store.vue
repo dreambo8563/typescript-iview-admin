@@ -7,33 +7,26 @@
     </Badge>
   </div>
 </template>
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
 
-<script>
-export default {
-  name: "ErrorStore",
-  props: {
-    count: {
-      type: Number,
-      default: 0
-    },
-    hasRead: {
-      type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-    countComputed() {
-      return this.hasRead ? 0 : this.count;
-    }
-  },
-  methods: {
-    openErrorLoggerPage() {
-      this.$router.push({
-        name: "error_logger_page"
-      });
-    }
+@Component
+export default class ErrorStore extends Vue {
+  @Prop({ default: 0 }) readonly count!: number;
+  @Prop({ default: false }) readonly hasRead!: boolean;
+
+  name = "ErrorStore";
+
+  get countComputed() {
+    return this.hasRead ? 0 : this.count;
   }
-};
+
+  openErrorLoggerPage() {
+    this.$router.push({
+      name: "error_logger_page"
+    });
+  }
+}
 </script>
 
 <style lang="less">
