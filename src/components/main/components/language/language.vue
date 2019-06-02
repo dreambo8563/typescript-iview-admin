@@ -16,41 +16,38 @@
     </Dropdown>
   </div>
 </template>
+<script lang="ts">
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 
-<script>
-export default {
-  name: "Language",
-  props: {
-    lang: String
-  },
-  data() {
-    return {
-      langList: {
-        "zh-CN": "语言",
-        "zh-TW": "語言",
-        "en-US": "Lang"
-      },
-      localList: {
-        "zh-CN": "中文简体",
-        "zh-TW": "中文繁体",
-        "en-US": "English"
-      }
-    };
-  },
-  watch: {
-    lang(lang) {
-      this.$i18n.locale = lang;
-    }
-  },
-  computed: {
-    title() {
-      return this.langList[this.lang];
-    }
-  },
-  methods: {
-    selectLang(name) {
-      this.$emit("on-lang-change", name);
-    }
+@Component
+export default class Language extends Vue {
+  @Prop({ default: "" }) readonly lang!: string;
+
+  name = "Language";
+
+  langList = {
+    "zh-CN": "语言",
+    "zh-TW": "語言",
+    "en-US": "Lang"
+  };
+
+  localList = {
+    "zh-CN": "中文简体",
+    "zh-TW": "中文繁体",
+    "en-US": "English"
+  };
+
+  get title() {
+    return this.langList[this.lang];
   }
-};
+
+  selectLang(name) {
+    this.$emit("on-lang-change", name);
+  }
+
+  @Watch("lang")
+  onLangChanged(lang: string) {
+    this.$i18n.locale = lang;
+  }
+}
 </script>
