@@ -9,58 +9,56 @@
     </Tooltip>
   </div>
 </template>
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
 
-<script>
-export default {
-  name: "Fullscreen",
-  computed: {
-    showFullScreenBtn() {
-      return window.navigator.userAgent.indexOf("MSIE") < 0;
-    }
-  },
-  props: {
-    value: {
-      type: Boolean,
-      default: false
-    }
-  },
-  methods: {
-    handleFullscreen() {
-      let main = document.body;
-      if (this.value) {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
-        } else if (document.webkitCancelFullScreen) {
-          document.webkitCancelFullScreen();
-        } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
-        }
-      } else {
-        if (main.requestFullscreen) {
-          main.requestFullscreen();
-        } else if (main.mozRequestFullScreen) {
-          main.mozRequestFullScreen();
-        } else if (main.webkitRequestFullScreen) {
-          main.webkitRequestFullScreen();
-        } else if (main.msRequestFullscreen) {
-          main.msRequestFullscreen();
-        }
+@Component
+export default class Fullscreen extends Vue {
+  @Prop({ default: false }) readonly value!: boolean;
+
+  name = "Fullscreen";
+
+  get showFullScreenBtn() {
+    return window.navigator.userAgent.indexOf("MSIE") < 0;
+  }
+
+  handleFullscreen() {
+    let main: any = document.body;
+    if (this.value) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).mozCancelFullScreen) {
+        (document as any).mozCancelFullScreen();
+      } else if ((document as any).webkitCancelFullScreen) {
+        (document as any).webkitCancelFullScreen();
+      } else if ((document as any).msExitFullscreen) {
+        (document as any).msExitFullscreen();
       }
-    },
-    handleChange() {
-      this.handleFullscreen();
+    } else {
+      if (main.requestFullscreen) {
+        main.requestFullscreen();
+      } else if (main.mozRequestFullScreen) {
+        main.mozRequestFullScreen();
+      } else if (main.webkitRequestFullScreen) {
+        main.webkitRequestFullScreen();
+      } else if (main.msRequestFullscreen) {
+        main.msRequestFullscreen();
+      }
     }
-  },
+  }
+
+  handleChange() {
+    this.handleFullscreen();
+  }
+
   mounted() {
     let isFullscreen =
       document.fullscreenElement ||
-      document.mozFullScreenElement ||
-      document.webkitFullscreenElement ||
-      document.fullScreen ||
-      document.mozFullScreen ||
-      document.webkitIsFullScreen;
+      (document as any).mozFullScreenElement ||
+      (document as any).webkitFullscreenElement ||
+      (document as any).fullScreen ||
+      (document as any).mozFullScreen ||
+      (document as any).webkitIsFullScreen;
     isFullscreen = !!isFullscreen;
     document.addEventListener("fullscreenchange", () => {
       this.$emit("input", !this.value);
@@ -80,7 +78,7 @@ export default {
     });
     this.$emit("input", isFullscreen);
   }
-};
+}
 </script>
 
 <style lang="less">
