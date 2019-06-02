@@ -1,6 +1,7 @@
 import Vue from "vue";
 
 declare module "*.js";
+
 declare module "vue/types/vue" {
   // Global properties can be declared
   // on the `VueConstructor` interface

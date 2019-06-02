@@ -351,7 +351,7 @@ export const findNodeUpperByClasses = (ele: Element, classes: string[]) => {
  * @param {*} route1 路由对象
  * @param {*} route2 路由对象
  */
-export const routeEqual = (route1: Route, route2: Route) => {
+export const routeEqual = (route1: Partial<Route>, route2: Partial<Route>) => {
   const params1 = route1.params || {};
   const params2 = route2.params || {};
   const query1 = route1.query || {};
