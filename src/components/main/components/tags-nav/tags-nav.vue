@@ -150,6 +150,7 @@ export default class TagsNav extends Vue {
   }
 
   handleClose(current) {
+    console.log(current.meta);
     if (
       current.meta &&
       current.meta.beforeCloseName &&

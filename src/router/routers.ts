@@ -74,5 +74,25 @@ export default [
         component: () => import("@/views/join-page.vue")
       }
     ]
+  },
+  {
+    path: "/message",
+    name: "message",
+    component: Main,
+    meta: {
+      hideInBread: true,
+      hideInMenu: true
+    },
+    children: [
+      {
+        path: "message_page",
+        name: "message_page",
+        meta: {
+          icon: "md-notifications",
+          title: "消息中心"
+        },
+        component: () => import("@/views/single-page/message/index.vue")
+      }
+    ]
   }
 ];

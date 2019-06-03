@@ -4,23 +4,23 @@
       <div class="message-page-con message-category-con">
         <Menu width="auto" active-name="unread" @on-select="handleSelect">
           <MenuItem name="unread">
-            <span class="category-title">未读消息</span
-            ><Badge
+            <span class="category-title">未读消息</span>
+            <Badge
               style="margin-left: 10px"
               :count="messageUnreadCount"
             ></Badge>
           </MenuItem>
           <MenuItem name="readed">
-            <span class="category-title">已读消息</span
-            ><Badge
+            <span class="category-title">已读消息</span>
+            <Badge
               style="margin-left: 10px"
               class-name="gray-dadge"
               :count="messageReadedCount"
             ></Badge>
           </MenuItem>
           <MenuItem name="trash">
-            <span class="category-title">回收站</span
-            ><Badge
+            <span class="category-title">回收站</span>
+            <Badge
               style="margin-left: 10px"
               class-name="gray-dadge"
               :count="messageTrashCount"
@@ -32,7 +32,7 @@
         <Spin fix v-if="listLoading" size="large"></Spin>
         <Menu
           width="auto"
-          active-name=""
+          active-name
           :class="titleClass"
           @on-select="handleView"
         >
@@ -65,9 +65,9 @@
         <Spin fix v-if="contentLoading" size="large"></Spin>
         <div class="message-view-header">
           <h2 class="message-view-title">{{ showingMsgItem.title }}</h2>
-          <time class="message-view-time">{{
-            showingMsgItem.create_time
-          }}</time>
+          <time class="message-view-time">
+            {{ showingMsgItem.create_time }}
+          </time>
         </div>
         <div v-html="messageContent"></div>
       </div>
@@ -75,82 +75,82 @@
   </Card>
 </template>
 
-<script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { State, Getter, Action, namespace } from "vuex-class";
+
+const userModule = namespace("user");
+
 const listDic = {
   unread: "messageUnreadList",
   readed: "messageReadedList",
   trash: "messageTrashList"
 };
-export default {
-  name: "message_page",
-  data() {
+@Component
+export default class MessagePage extends Vue {
+  @userModule.State messageUnreadList;
+  @userModule.State messageReadedList;
+  @userModule.State messageTrashList;
+
+  @userModule.Getter messageUnreadCount;
+  @userModule.Getter messageReadedCount;
+  @userModule.Getter messageTrashCount;
+
+  @userModule.Action getContentByMsgId;
+  @userModule.Action getMessageList;
+  @userModule.Action hasRead;
+  @userModule.Action removeReaded;
+  @userModule.Action restoreTrash;
+
+  name = "message_page";
+
+  //data
+  listLoading = true;
+  contentLoading = false;
+  currentMessageType = "unread";
+  messageContent = "";
+  showingMsgItem = {};
+
+  get messageList() {
+    return this[listDic[this.currentMessageType]];
+  }
+
+  get titleClass() {
     return {
-      listLoading: true,
-      contentLoading: false,
-      currentMessageType: "unread",
-      messageContent: "",
-      showingMsgItem: {}
+      "not-unread-list": this.currentMessageType !== "unread"
     };
-  },
-  computed: {
-    ...mapState({
-      messageUnreadList: state => state.user.messageUnreadList,
-      messageReadedList: state => state.user.messageReadedList,
-      messageTrashList: state => state.user.messageTrashList,
-      messageList() {
-        return this[listDic[this.currentMessageType]];
-      },
-      titleClass() {
-        return {
-          "not-unread-list": this.currentMessageType !== "unread"
-        };
-      }
-    }),
-    ...mapGetters([
-      "messageUnreadCount",
-      "messageReadedCount",
-      "messageTrashCount"
-    ])
-  },
-  methods: {
-    ...mapMutations([
-      //
-    ]),
-    ...mapActions([
-      "getContentByMsgId",
-      "getMessageList",
-      "hasRead",
-      "removeReaded",
-      "restoreTrash"
-    ]),
-    stopLoading(name) {
-      this[name] = false;
-    },
-    handleSelect(name) {
-      this.currentMessageType = name;
-    },
-    handleView(msg_id) {
-      this.contentLoading = true;
-      this.getContentByMsgId({ msg_id })
-        .then(content => {
-          this.messageContent = content;
-          const item = this.messageList.find(item => item.msg_id === msg_id);
-          if (item) this.showingMsgItem = item;
-          if (this.currentMessageType === "unread") this.hasRead({ msg_id });
-          this.stopLoading("contentLoading");
-        })
-        .catch(() => {
-          this.stopLoading("contentLoading");
-        });
-    },
-    removeMsg(item) {
-      item.loading = true;
-      const msg_id = item.msg_id;
-      if (this.currentMessageType === "readed") this.removeReaded({ msg_id });
-      else this.restoreTrash({ msg_id });
-    }
-  },
+  }
+
+  stopLoading(name) {
+    this[name] = false;
+  }
+
+  handleSelect(name) {
+    this.currentMessageType = name;
+  }
+
+  handleView(msg_id) {
+    this.contentLoading = true;
+    this.getContentByMsgId({ msg_id })
+      .then(content => {
+        this.messageContent = content;
+        const item = this.messageList.find(item => item.msg_id === msg_id);
+        if (item) this.showingMsgItem = item;
+        if (this.currentMessageType === "unread") this.hasRead({ msg_id });
+        this.stopLoading("contentLoading");
+      })
+      .catch(() => {
+        this.stopLoading("contentLoading");
+      });
+  }
+
+  removeMsg(item) {
+    item.loading = true;
+    const msg_id = item.msg_id;
+    if (this.currentMessageType === "readed") this.removeReaded({ msg_id });
+    else this.restoreTrash({ msg_id });
+  }
+
   mounted() {
     this.listLoading = true;
     // 请求获取消息列表
@@ -158,7 +158,7 @@ export default {
       .then(() => this.stopLoading("listLoading"))
       .catch(() => this.stopLoading("listLoading"));
   }
-};
+}
 </script>
 
 <style lang="less">
