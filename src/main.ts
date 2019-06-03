@@ -8,7 +8,7 @@ import installPlugin from "@/plugin";
 import iView from "iview";
 import { directive as clickOutside } from "v-click-outside-x";
 import "./registerServiceWorker";
-
+import TreeTable from "tree-table-vue";
 import "./index.less";
 import "@/assets/icons/iconfont.css";
 
@@ -22,7 +22,7 @@ if (process.env.NODE_ENV !== 'production') require('@/mock');
 Vue.use(iView, {
   i18n: (key: string, value: string) => i18n.t(key, value)
 });
-
+Vue.use(TreeTable);
 Vue.use(VOrgTree);
 /**
  * @description 注册admin内置插件

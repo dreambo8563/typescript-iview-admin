@@ -148,6 +148,24 @@ export default [
           title: "组织结构树"
         },
         component: () => import("@/views/components/org-tree/index.vue")
+      },
+      {
+        path: "tree_table_page",
+        name: "tree_table_page",
+        meta: {
+          icon: "md-git-branch",
+          title: "树状表格"
+        },
+        component: () => import("@/views/components/tree-table/index.vue")
+      },
+      {
+        path: "cropper_page",
+        name: "cropper_page",
+        meta: {
+          icon: "md-crop",
+          title: "图片裁剪"
+        },
+        component: () => import("@/views/components/cropper/cropper.vue")
       }
     ]
   }
