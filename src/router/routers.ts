@@ -166,6 +166,15 @@ export default [
           title: "图片裁剪"
         },
         component: () => import("@/views/components/cropper/cropper.vue")
+      },
+      {
+        path: "tables_page",
+        name: "tables_page",
+        meta: {
+          icon: "md-grid",
+          title: "多功能表格"
+        },
+        component: () => import("@/views/components/tables/tables.vue")
       }
     ]
   }
