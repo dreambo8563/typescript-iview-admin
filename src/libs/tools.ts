@@ -174,7 +174,7 @@ export const getExplorer = (): string | undefined => {
 export const on = (function() {
   if (document.addEventListener) {
     return function(
-      element: Element | null | Window,
+      element: Element | null | Window | Document,
       event: string,
       handler: EventListener
     ) {
@@ -184,7 +184,7 @@ export const on = (function() {
     };
   } else {
     return function(
-      element: Element | null | Window,
+      element: Element | null | Window | Document,
       event: string,
       handler: EventListener
     ) {
@@ -201,7 +201,7 @@ export const on = (function() {
 export const off = (function() {
   if (document.removeEventListener) {
     return function(
-      element: Element | null | Window,
+      element: Element | null | Window | Document,
       event: string,
       handler: EventListener
     ) {
@@ -211,7 +211,7 @@ export const off = (function() {
     };
   } else {
     return function(
-      element: Element | null | Window,
+      element: Element | null | Window | Document,
       event: string,
       handler: EventListener
     ) {

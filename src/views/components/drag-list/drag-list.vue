@@ -10,13 +10,13 @@
           @on-change="handleChange"
         >
           <h3 slot="left-title">待办事项</h3>
-          <Card class="drag-item" slot="left" slot-scope="left">{{
-            left.itemLeft.name
-          }}</Card>
+          <Card class="drag-item" slot="left" slot-scope="left">
+            {{ left.itemLeft.name }}
+          </Card>
           <h3 slot="right-title">完成事项</h3>
-          <Card class="drag-item" slot="right" slot-scope="right">{{
-            right.itemRight.name
-          }}</Card>
+          <Card class="drag-item" slot="right" slot-scope="right">
+            {{ right.itemRight.name }}
+          </Card>
         </drag-list>
       </div>
       <div class="handle-log-box">
@@ -87,9 +87,9 @@ export default {
   .left-drop-box {
     margin-right: 10px;
   }
-  .right-drop-box {
-    //
-  }
+  // .right-drop-box {
+  //   //
+  // }
 }
 .handle-log-box {
   display: inline-block;

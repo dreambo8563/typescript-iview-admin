@@ -17,9 +17,9 @@
         :color="textColor"
         :type="parentItem.icon"
       />
-      <span class="menu-title" v-if="!hideTitle">
-        {{ showTitle(parentItem) }}
-      </span>
+      <span class="menu-title" v-if="!hideTitle">{{
+        showTitle(parentItem)
+      }}</span>
       <Icon
         style="float: right;"
         v-if="!hideTitle"
