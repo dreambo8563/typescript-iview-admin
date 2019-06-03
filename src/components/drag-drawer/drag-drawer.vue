@@ -69,7 +69,7 @@ export default class BDrawer extends mixins(Mixin) {
   @Prop({ default: 256 }) readonly minWidth!: string | number;
 
   name = "BDrawer";
-  // prefix: string;
+
   //data
   canMove = false;
   wrapperWidth = 0;

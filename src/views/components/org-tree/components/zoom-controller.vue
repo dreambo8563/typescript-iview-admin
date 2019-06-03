@@ -10,42 +10,30 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "ZoomController",
-  props: {
-    value: {
-      type: Number,
-      default: 100
-    },
-    step: {
-      type: Number,
-      default: 20
-    },
-    min: {
-      type: Number,
-      default: 10
-    },
-    max: {
-      type: Number,
-      default: 200
-    }
-  },
-  methods: {
-    scale(type) {
-      const zoom = this.value + (type === "down" ? -this.step : this.step);
-      if (
-        (zoom < this.min && type === "down") ||
-        (zoom > this.max && type === "up")
-      ) {
-        return;
-      }
-      this.$emit("input", zoom);
-    }
-  }
-};
-</script>
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
 
+@Component
+export default class ZoomController extends Vue {
+  @Prop({ default: 100 }) readonly value!: number;
+  @Prop({ default: 20 }) readonly step!: number;
+  @Prop({ default: 10 }) readonly min!: number;
+  @Prop({ default: 200 }) readonly max!: number;
+
+  name = "ZoomController";
+
+  scale(type) {
+    const zoom = this.value + (type === "down" ? -this.step : this.step);
+    if (
+      (zoom < this.min && type === "down") ||
+      (zoom > this.max && type === "up")
+    ) {
+      return;
+    }
+    this.$emit("input", zoom);
+  }
+}
+</script>
 <style lang="less">
 .trans(@duration) {
   transition: ~"all @{duration} ease-in";

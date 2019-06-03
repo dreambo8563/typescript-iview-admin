@@ -139,6 +139,15 @@ export default [
           title: "可拖拽抽屉"
         },
         component: () => import("@/views/components/drag-drawer/index.vue")
+      },
+      {
+        path: "org_tree_page",
+        name: "org_tree_page",
+        meta: {
+          icon: "ios-people",
+          title: "组织结构树"
+        },
+        component: () => import("@/views/components/org-tree/index.vue")
       }
     ]
   }
