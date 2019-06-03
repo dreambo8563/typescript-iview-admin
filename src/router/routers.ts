@@ -121,6 +121,15 @@ export default [
           title: "数字渐变"
         },
         component: () => import("@/views/components/count-to/count-to.vue")
+      },
+      {
+        path: "drag_list_page",
+        name: "drag_list_page",
+        meta: {
+          icon: "ios-infinite",
+          title: "拖拽列表"
+        },
+        component: () => import("@/views/components/drag-list/drag-list.vue")
       }
     ]
   }
