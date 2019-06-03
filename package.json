@@ -26,6 +26,7 @@
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {
+    "@types/echarts": "^4.1.9",
     "@types/jest": "^23.1.4",
     "@types/js-cookie": "^2.2.2",
     "@vue/cli-plugin-babel": "^3.8.0",

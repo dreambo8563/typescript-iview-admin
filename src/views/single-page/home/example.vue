@@ -2,21 +2,22 @@
   <div ref="dom"></div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+
 import echarts from "echarts";
 import { on, off } from "@/libs/tools";
-export default {
-  name: "serviceRequests",
-  data() {
-    return {
-      dom: null
-    };
-  },
-  methods: {
-    resize() {
-      this.dom.resize();
-    }
-  },
+
+@Component
+export default class ServiceRequests extends Vue {
+  name = "serviceRequests";
+
+  //data
+  dom: echarts.ECharts | null = null;
+
+  resize() {
+    this.dom && this.dom!.resize();
+  }
   mounted() {
     const option = {
       tooltip: {
@@ -112,13 +113,13 @@ export default {
       ]
     };
     this.$nextTick(() => {
-      this.dom = echarts.init(this.$refs.dom);
-      this.dom.setOption(option);
+      this.dom = echarts.init(this.$refs.dom as HTMLDivElement);
+      this.dom.setOption(option as echarts.EChartOption);
       on(window, "resize", this.resize);
     });
-  },
+  }
   beforeDestroy() {
     off(window, "resize", this.resize);
   }
-};
+}
 </script>
