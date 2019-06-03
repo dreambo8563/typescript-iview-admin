@@ -94,5 +94,25 @@ export default [
         component: () => import("@/views/single-page/message/index.vue")
       }
     ]
+  },
+  {
+    path: "/components",
+    name: "components",
+    meta: {
+      icon: "logo-buffer",
+      title: "组件"
+    },
+    component: Main,
+    children: [
+      {
+        path: "tree_select_page",
+        name: "tree_select_page",
+        meta: {
+          icon: "md-arrow-dropdown-circle",
+          title: "树状下拉选择器"
+        },
+        component: () => import("@/views/components/tree-select/index.vue")
+      }
+    ]
   }
 ];
