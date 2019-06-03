@@ -112,6 +112,15 @@ export default [
           title: "树状下拉选择器"
         },
         component: () => import("@/views/components/tree-select/index.vue")
+      },
+      {
+        path: "count_to_page",
+        name: "count_to_page",
+        meta: {
+          icon: "md-trending-up",
+          title: "数字渐变"
+        },
+        component: () => import("@/views/components/count-to/count-to.vue")
       }
     ]
   }
