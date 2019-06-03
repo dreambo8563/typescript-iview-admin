@@ -55,24 +55,24 @@ export default [
       href: "https://lison16.github.io/iview-admin-doc/#/",
       icon: "ios-book"
     }
+  },
+  {
+    path: "/join",
+    name: "join",
+    component: Main,
+    meta: {
+      hideInBread: true
+    },
+    children: [
+      {
+        path: "join_page",
+        name: "join_page",
+        meta: {
+          icon: "_qq",
+          title: "QQ群"
+        },
+        component: () => import("@/views/join-page.vue")
+      }
+    ]
   }
-  // {
-  //   path: "/join",
-  //   name: "join",
-  //   component: Main,
-  //   meta: {
-  //     hideInBread: true
-  //   },
-  //   children: [
-  //     {
-  //       path: "join_page",
-  //       name: "join_page",
-  //       meta: {
-  //         icon: "_qq",
-  //         title: "QQ群"
-  //       },
-  //       component: () => import("@/view/join-page.vue")
-  //     }
-  //   ]
-  // }
 ];
