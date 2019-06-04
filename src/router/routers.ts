@@ -193,6 +193,15 @@ export default [
           title: "Markdown编辑器"
         },
         component: () => import("@/views/components/markdown/markdown.vue")
+      },
+      {
+        path: "editor_page",
+        name: "editor_page",
+        meta: {
+          icon: "ios-create",
+          title: "富文本编辑器"
+        },
+        component: () => import("@/views/components/editor/editor.vue")
       }
     ]
   }
