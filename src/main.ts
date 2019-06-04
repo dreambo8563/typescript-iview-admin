@@ -9,6 +9,7 @@ import iView from "iview";
 import { directive as clickOutside } from "v-click-outside-x";
 import "./registerServiceWorker";
 import TreeTable from "tree-table-vue";
+import importDirective from "@/directive";
 import "./index.less";
 import "@/assets/icons/iconfont.css";
 
@@ -29,6 +30,11 @@ Vue.use(VOrgTree);
  */
 installPlugin(Vue);
 Vue.directive('clickOutside', clickOutside);
+
+/**
+ * 注册指令
+ */
+importDirective(Vue);
 
 Vue.config.productionTip = false;
 Vue.prototype.$config = config;

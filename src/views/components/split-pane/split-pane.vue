@@ -24,27 +24,28 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import SplitPane from "_c/split-pane";
 import Icons from "_c/icons";
-export default {
-  name: "split_pane_page",
+
+@Component({
   components: {
     SplitPane,
     Icons
-  },
-  data() {
-    return {
-      offset: 0.6,
-      offsetVertical: "250px"
-    };
-  },
-  methods: {
-    handleMoving(e) {
-      console.log(e.atMin, e.atMax);
-    }
   }
-};
+})
+export default class SplitPanePage extends Vue {
+  name = "split_pane_page";
+
+  //data
+  offset = 0.6;
+  offsetVertical = "250px";
+
+  handleMoving(e) {
+    console.log(e.atMin, e.atMax);
+  }
+}
 </script>
 
 <style lang="less">

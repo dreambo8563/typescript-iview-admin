@@ -45,21 +45,22 @@
   </Row>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import Icons from "_c/icons";
 import CommonIcon from "_c/common-icon";
-export default {
-  name: "icons_pages",
+
+@Component({
   components: {
     Icons,
     CommonIcon
-  },
-  data() {
-    return {
-      customIconList: ["woman", "man", "smile", "meh", "frown", "bear"]
-    };
   }
-};
+})
+export default class IconsPages extends Vue {
+  name = "icons_pages";
+  //data
+  customIconList = ["woman", "man", "smile", "meh", "frown", "bear"];
+}
 </script>
 
 <style lang="less">

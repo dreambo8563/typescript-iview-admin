@@ -10,13 +10,13 @@
           @on-change="handleChange"
         >
           <h3 slot="left-title">待办事项</h3>
-          <Card class="drag-item" slot="left" slot-scope="left">
-            {{ left.itemLeft.name }}
-          </Card>
+          <Card class="drag-item" slot="left" slot-scope="left">{{
+            left.itemLeft.name
+          }}</Card>
           <h3 slot="right-title">完成事项</h3>
-          <Card class="drag-item" slot="right" slot-scope="right">
-            {{ right.itemRight.name }}
-          </Card>
+          <Card class="drag-item" slot="right" slot-scope="right">{{
+            right.itemRight.name
+          }}</Card>
         </drag-list>
       </div>
       <div class="handle-log-box">
@@ -36,38 +36,42 @@
     </Card>
   </div>
 </template>
-<script>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import DragList from "_c/drag-list";
 import { getDragList } from "@/api/data";
-export default {
-  name: "drag_list_page",
+
+@Component({
   components: {
     DragList
-  },
-  data() {
-    return {
-      list1: [],
-      list2: [],
-      dropConClass: {
-        left: ["drop-box", "left-drop-box"],
-        right: ["drop-box", "right-drop-box"]
-      },
-      handleList: []
-    };
-  },
-  methods: {
-    handleChange({ src, target, oldIndex, newIndex }) {
-      this.handleList.push(`${src} => ${target}, ${oldIndex} => ${newIndex}`);
-    }
-  },
+  }
+})
+export default class DragListPage extends Vue {
+  name = "drag_list_page";
+
+  //data
+  list1 = [];
+  list2: any[] = [];
+  dropConClass = {
+    left: ["drop-box", "left-drop-box"],
+    right: ["drop-box", "right-drop-box"]
+  };
+  handleList: string[] = [];
+
+  handleChange({ src, target, oldIndex, newIndex }) {
+    this.handleList.push(`${src} => ${target}, ${oldIndex} => ${newIndex}`);
+  }
+
   mounted() {
     getDragList().then(res => {
       this.list1 = res.data;
       this.list2 = [res.data[0]];
     });
   }
-};
+}
 </script>
+
 <style lang="less">
 .drag-box-card {
   display: inline-block;

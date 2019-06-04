@@ -69,41 +69,41 @@
   </Card>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import DragDrawer from "_c/drag-drawer";
-export default {
-  name: "drag_drawer_page",
+
+@Component({
   components: {
     DragDrawer
-  },
-  data() {
-    return {
-      showWindowBDrawer: false,
-      showContainerBDrawer: false,
-      showBDrawer3: false,
-      width1: 300,
-      width2: 200,
-      placement: false,
-      draggable: true
-    };
-  },
-  computed: {
-    placementComputed() {
-      return this.placement ? "left" : "right";
-    }
-  },
-  methods: {
-    handleResize(event) {
-      const { atMin } = event;
-      /* eslint-disable */
-      console.log(atMin);
-    },
+  }
+})
+export default class DragDrawerPage extends Vue {
+  name = "drag_drawer_page";
+
+  //data
+  showWindowBDrawer = false;
+  showContainerBDrawer = false;
+  showBDrawer3 = false;
+  width1 = 300;
+  width2 = 200;
+  placement = false;
+  draggable = true;
+
+  get placementComputed() {
+    return this.placement ? "left" : "right";
+  }
+
+  handleResize(event) {
+    const { atMin } = event;
+    /* eslint-disable */
+    console.log(atMin);
   }
 }
 </script>
 
 <style lang="less">
-.drag-drawer-inner-box{
+.drag-drawer-inner-box {
   position: relative;
   width: 500px;
   height: 400px;

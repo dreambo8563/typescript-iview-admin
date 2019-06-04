@@ -4,19 +4,19 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import MarkdownEditor from "_c/markdown";
-export default {
-  name: "markdown_page",
+
+@Component({
   components: {
     MarkdownEditor
-  },
-  data() {
-    return {
-      content: ""
-    };
   }
-};
-</script>
+})
+export default class MarkdownPage extends Vue {
+  name = "markdown_page";
 
-<style></style>
+  //data
+  content = "";
+}
+</script>

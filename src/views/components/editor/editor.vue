@@ -5,27 +5,29 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import Editor from "_c/editor";
-export default {
-  name: "editor_page",
+
+@Component({
   components: {
     Editor
-  },
-  data() {
-    return {
-      content: "12312323"
-    };
-  },
-  methods: {
-    handleChange(html, text) {
-      console.log(html, text);
-    },
-    changeContent() {
-      this.$refs.editor.setHtml("<p>powered by wangeditor</p>");
-    }
   }
-};
-</script>
+})
+export default class EditorPage extends Vue {
+  name = "editor_page";
 
-<style></style>
+  //data
+  content = "12312323";
+
+  handleChange(html, text) {
+    console.log(html, text);
+  }
+
+  changeContent() {
+    ((this.$refs as unknown) as Editor).editor.setHtml(
+      "<p>powered by wangeditor</p>"
+    );
+  }
+}
+</script>

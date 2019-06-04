@@ -2,28 +2,28 @@
   <div ref="dom" class="charts chart-bar"></div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
 import echarts from "echarts";
 import tdTheme from "./theme.json";
 import { on, off } from "@/libs/tools";
 echarts.registerTheme("tdTheme", tdTheme);
-export default {
-  name: "ChartBar",
-  props: {
-    value: Object,
-    text: String,
-    subtext: String
-  },
-  data() {
-    return {
-      dom: null
-    };
-  },
-  methods: {
-    resize() {
-      this.dom.resize();
-    }
-  },
+
+@Component
+export default class ChartBar extends Vue {
+  @Prop({ default: () => ({}) }) readonly value!: object;
+  @Prop(String) readonly text!: string | undefined;
+  @Prop(String) readonly subtext!: string | undefined;
+
+  name = "ChartBar";
+
+  //data
+  dom: echarts.ECharts | null = null;
+
+  resize() {
+    this.dom!.resize();
+  }
+
   mounted() {
     this.$nextTick(() => {
       let xAxisData = Object.keys(this.value);
@@ -48,13 +48,14 @@ export default {
           }
         ]
       };
-      this.dom = echarts.init(this.$refs.dom, "tdTheme");
-      this.dom.setOption(option);
+      this.dom = echarts.init(this.$refs.dom as HTMLDivElement, "tdTheme");
+      this.dom!.setOption(option as echarts.EChartOption);
       on(window, "resize", this.resize);
     });
-  },
+  }
+
   beforeDestroy() {
     off(window, "resize", this.resize);
   }
-};
+}
 </script>

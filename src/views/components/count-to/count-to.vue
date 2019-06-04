@@ -3,10 +3,7 @@
     <Row :gutter="14">
       <i-col span="3">
         <Card>
-          <p slot="title">
-            <Icon type="waterdrop"></Icon>
-            count-to组件基础用法
-          </p>
+          <p slot="title"><Icon type="waterdrop"></Icon>count-to组件基础用法</p>
           <Row
             type="flex"
             justify="center"
@@ -21,10 +18,7 @@
       </i-col>
       <i-col span="5" class="padding-left-10">
         <Card>
-          <p slot="title">
-            <Icon type="code"></Icon>
-            可添加左右文字
-          </p>
+          <p slot="title"><Icon type="code"></Icon>可添加左右文字</p>
           <Row
             type="flex"
             justify="center"
@@ -42,10 +36,7 @@
       </i-col>
       <i-col span="8" class="padding-left-10">
         <Card>
-          <p slot="title">
-            <Icon type="paintbucket"></Icon>
-            自定义样式
-          </p>
+          <p slot="title"><Icon type="paintbucket"></Icon>自定义样式</p>
           <Row
             type="flex"
             justify="center"
@@ -67,10 +58,7 @@
       </i-col>
       <i-col span="8" class="padding-left-10">
         <Card>
-          <p slot="title">
-            <Icon type="settings"></Icon>
-            设置数据格式
-          </p>
+          <p slot="title"><Icon type="settings"></Icon>设置数据格式</p>
           <Row
             type="flex"
             justify="center"
@@ -96,8 +84,7 @@
       <i-col span="8">
         <Card>
           <p slot="title">
-            <Icon type="ios-color-wand"></Icon>
-            转换单位简化数据
+            <Icon type="ios-color-wand"></Icon>转换单位简化数据
           </p>
           <Row
             type="flex"
@@ -121,10 +108,7 @@
       </i-col>
       <i-col span="8" class="padding-left-10">
         <Card>
-          <p slot="title">
-            <Icon type="ios-shuffle-strong"></Icon>
-            自定义单位
-          </p>
+          <p slot="title"><Icon type="ios-shuffle-strong"></Icon>自定义单位</p>
           <Row
             type="flex"
             justify="center"
@@ -172,8 +156,7 @@
       <i-col span="8" class="padding-left-10">
         <Card>
           <p slot="title">
-            <Icon type="android-stopwatch"></Icon>
-            可异步更新数据
+            <Icon type="android-stopwatch"></Icon>可异步更新数据
           </p>
           <Row
             type="flex"
@@ -198,10 +181,7 @@
     <Row :gutter="14" style="margin-top: 14px;">
       <i-col>
         <Card>
-          <p slot="title">
-            <Icon type="ios-analytics"></Icon>
-            综合实例
-          </p>
+          <p slot="title"><Icon type="ios-analytics"></Icon>综合实例</p>
           <Row
             type="flex"
             justify="center"
@@ -230,43 +210,42 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import CountTo from "_c/count-to";
-export default {
-  name: "count_to_page",
+@Component({
   components: {
     CountTo
-  },
-  data() {
-    return {
-      end: 0,
-      unit: [[3, "千多"], [4, "万多"], [5, "十万多"]],
-      unit2: [
-        [1, "十多"],
-        [2, "百多"],
-        [3, "千多"],
-        [4, "万多"],
-        [5, "十万多"],
-        [6, "百万多"],
-        [7, "千万多"],
-        [8, "亿多"]
-      ],
-      asynEndVal: 487,
-      integratedEndVal: 3
-    };
-  },
-  methods: {
-    init() {
-      setInterval(() => {
-        this.asynEndVal += parseInt(Math.random() * 20);
-        this.integratedEndVal += parseInt(Math.random() * 30);
-      }, 2000);
-    }
-  },
+  }
+})
+export default class CountToPage extends Vue {
+  //data
+  end = 0;
+  unit = [[3, "千多"], [4, "万多"], [5, "十万多"]];
+  unit2 = [
+    [1, "十多"],
+    [2, "百多"],
+    [3, "千多"],
+    [4, "万多"],
+    [5, "十万多"],
+    [6, "百万多"],
+    [7, "千万多"],
+    [8, "亿多"]
+  ];
+  asynEndVal = 487;
+  integratedEndVal = 3;
+
+  init() {
+    setInterval(() => {
+      this.asynEndVal += parseInt((Math.random() * 20).toString());
+      this.integratedEndVal += parseInt((Math.random() * 30).toString());
+    }, 2000);
+  }
+
   mounted() {
     this.init();
   }
-};
+}
 </script>
 
 <style lang="less">

@@ -17,72 +17,78 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import TreeSelect from "_c/tree-select";
 import { newTreeData } from "@/mock/data/tree-select";
 import { getTreeSelectData } from "@/api/data";
-export default {
-  name: "tree_select_page",
+
+@Component({
   components: {
     TreeSelect
-  },
-  data() {
-    return {
-      treeSelected: [112, 113],
-      treeData: []
-    };
-  },
+  }
+})
+export default class TreeSelectPage extends Vue {
+  name = "tree_select_page";
+
+  //data
+  treeSelected = [112, 113];
+  treeData = [];
+
+  changeTreeSelectData() {
+    this.treeSelected = [111, 114];
+  }
+
+  changeTreeData() {
+    this.treeData = newTreeData;
+    // this.treeSelected = [];
+  }
+
+  handleTreeSelectChange(list) {
+    // console.log('=-========', list);
+  }
+
+  handleTreeSelectExpand(item) {
+    // console.log('toggle expand', item);
+  }
+
+  handleTreeSelectCheckChange(selectedArray, item) {
+    // console.log(selectedArray, item);
+  }
+
+  handleTreeSelectClick(selectArray, item) {
+    // console.log(selectArray, item);
+  }
+
+  loadData(item, callback) {
+    setTimeout(() => {
+      let data = [
+        {
+          id: 111,
+          title: "1-1-1"
+        },
+        {
+          id: 112,
+          title: "1-1-2"
+        },
+        {
+          id: 113,
+          title: "1-1-3"
+        },
+        {
+          id: 114,
+          title: "1-1-4"
+        }
+      ];
+      callback(data);
+    }, 1000);
+  }
+
   mounted() {
     getTreeSelectData().then(res => {
       const { data } = res;
       this.treeData = data;
     });
-  },
-  methods: {
-    changeTreeSelectData() {
-      this.treeSelected = [111, 114];
-    },
-    changeTreeData() {
-      this.treeData = newTreeData;
-      // this.treeSelected = [];
-    },
-    handleTreeSelectChange(list) {
-      // console.log('=-========', list);
-    },
-    handleTreeSelectExpand(item) {
-      // console.log('toggle expand', item);
-    },
-    handleTreeSelectCheckChange(selectedArray, item) {
-      // console.log(selectedArray, item);
-    },
-    handleTreeSelectClick(selectArray, item) {
-      // console.log(selectArray, item);
-    },
-    loadData(item, callback) {
-      setTimeout(() => {
-        let data = [
-          {
-            id: 111,
-            title: "1-1-1"
-          },
-          {
-            id: 112,
-            title: "1-1-2"
-          },
-          {
-            id: 113,
-            title: "1-1-3"
-          },
-          {
-            id: 114,
-            title: "1-1-4"
-          }
-        ];
-        callback(data);
-      }, 1000);
-    }
   }
-};
+}
 </script>
-
-<style></style>

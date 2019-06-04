@@ -13,44 +13,31 @@
   </Card>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
+
 import CommonIcon from "_c/common-icon";
-export default {
-  name: "InforCard",
+
+@Component({
   components: {
     CommonIcon
-  },
-  props: {
-    left: {
-      type: Number,
-      default: 36
-    },
-    color: {
-      type: String,
-      default: "#2d8cf0"
-    },
-    icon: {
-      type: String,
-      default: ""
-    },
-    iconSize: {
-      type: Number,
-      default: 20
-    },
-    shadow: {
-      type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-    leftWidth() {
-      return `${this.left}%`;
-    },
-    rightWidth() {
-      return `${100 - this.left}%`;
-    }
   }
-};
+})
+export default class InforCard extends Vue {
+  @Prop({ default: 36 }) readonly left!: number;
+  @Prop({ default: "#2d8cf0" }) readonly color!: string;
+  @Prop({ default: "" }) readonly icon!: string;
+  @Prop({ default: 20 }) readonly iconSize!: number;
+  @Prop({ default: false }) readonly shadow!: boolean;
+
+  get leftWidth() {
+    return `${this.left}%`;
+  }
+
+  get rightWidth() {
+    return `${100 - this.left}%`;
+  }
+}
 </script>
 
 <style lang="less">

@@ -16,29 +16,30 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import Cropper from "@/components/cropper";
 import { uploadImg } from "@/api/data";
-export default {
-  name: "cropper_page",
+
+@Component({
   components: {
     Cropper
-  },
-  data() {
-    return {
-      exampleImageSrc: ""
-    };
-  },
-  methods: {
-    handleCroped(blob) {
-      const formData = new FormData();
-      formData.append("croppedImg", blob);
-      uploadImg(formData).then(() => {
-        this.$Message.success("Upload success~");
-      });
-    }
   }
-};
+})
+export default class CropperPage extends Vue {
+  name = "cropper_page";
+
+  //data
+  exampleImageSrc = "";
+
+  handleCroped(blob) {
+    const formData = new FormData();
+    formData.append("croppedImg", blob);
+    uploadImg(formData).then(() => {
+      this.$Message.success("Upload success~");
+    });
+  }
+}
 </script>
 
 <style lang="less">
