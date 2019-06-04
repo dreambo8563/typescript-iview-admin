@@ -175,6 +175,24 @@ export default [
           title: "多功能表格"
         },
         component: () => import("@/views/components/tables/tables.vue")
+      },
+      {
+        path: "split_pane_page",
+        name: "split_pane_page",
+        meta: {
+          icon: "md-pause",
+          title: "分割窗口"
+        },
+        component: () => import("@/views/components/split-pane/split-pane.vue")
+      },
+      {
+        path: "markdown_page",
+        name: "markdown_page",
+        meta: {
+          icon: "logo-markdown",
+          title: "Markdown编辑器"
+        },
+        component: () => import("@/views/components/markdown/markdown.vue")
       }
     ]
   }
