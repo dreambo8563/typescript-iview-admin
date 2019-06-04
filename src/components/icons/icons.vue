@@ -2,32 +2,22 @@
   <i :class="`iconfont icon-${type}`" :style="styles"></i>
 </template>
 
-<script>
-export default {
-  name: "Icons",
-  props: {
-    type: {
-      type: String,
-      required: true
-    },
-    color: {
-      type: String,
-      default: "#5c6b77"
-    },
-    size: {
-      type: Number,
-      default: 16
-    }
-  },
-  computed: {
-    styles() {
-      return {
-        fontSize: `${this.size}px`,
-        color: this.color
-      };
-    }
-  }
-};
-</script>
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
 
-<style></style>
+@Component
+export default class Icons extends Vue {
+  @Prop({ type: String, required: true }) readonly type!: string;
+  @Prop({ type: String, default: "#5c6b77" }) readonly color!: string;
+  @Prop({ default: 16 }) readonly size!: number;
+
+  name = "Icons";
+
+  get styles() {
+    return {
+      fontSize: `${this.size}px`,
+      color: this.color
+    };
+  }
+}
+</script>

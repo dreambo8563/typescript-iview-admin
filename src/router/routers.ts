@@ -202,6 +202,15 @@ export default [
           title: "富文本编辑器"
         },
         component: () => import("@/views/components/editor/editor.vue")
+      },
+      {
+        path: "icons_page",
+        name: "icons_page",
+        meta: {
+          icon: "_bear",
+          title: "自定义图标"
+        },
+        component: () => import("@/views/components/icons/icons.vue")
       }
     ]
   }
