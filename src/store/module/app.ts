@@ -47,7 +47,7 @@ export default {
       state.homeRoute = getHomeRoute(routes, homeName);
     },
     setTagNavList(state, list) {
-      let tagList = [];
+      let tagList: any[] = [];
       if (list) {
         tagList = [...list];
       } else tagList = getTagNavListFromLocalstorage() || [];
@@ -97,7 +97,7 @@ export default {
       } = rootState;
       let data = {
         ...info,
-        time: Date.parse(new Date()),
+        time: Date.parse(new Date().toString()),
         token,
         userId,
         userName

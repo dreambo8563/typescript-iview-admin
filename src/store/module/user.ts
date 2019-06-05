@@ -148,9 +148,12 @@ export default {
             const { unread, readed, trash } = res.data;
             commit(
               "setMessageUnreadList",
-              unread.sort(
-                (a, b) => new Date(b.create_time) - new Date(a.create_time)
-              )
+              unread.sort((a, b) => {
+                return (
+                  ((new Date(b.create_time) as unknown) as number) -
+                  ((new Date(a.create_time) as unknown) as number)
+                );
+              })
             );
             commit(
               "setMessageReadedList",
@@ -160,7 +163,9 @@ export default {
                   return _;
                 })
                 .sort(
-                  (a, b) => new Date(b.create_time) - new Date(a.create_time)
+                  (a, b) =>
+                    ((new Date(b.create_time) as unknown) as number) -
+                    ((new Date(a.create_time) as unknown) as number)
                 )
             );
             commit(
@@ -171,7 +176,9 @@ export default {
                   return _;
                 })
                 .sort(
-                  (a, b) => new Date(b.create_time) - new Date(a.create_time)
+                  (a, b) =>
+                    ((new Date(b.create_time) as unknown) as number) -
+                    ((new Date(a.create_time) as unknown) as number)
                 )
             );
             resolve();
